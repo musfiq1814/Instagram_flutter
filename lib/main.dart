@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_flutter/responsive/mobile_screen_layout.dart';
 import 'package:instagram_flutter/screens/login_screen.dart';
+import 'package:instagram_flutter/screens/signup_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 
 import 'responsive/responsive_layout_screen.dart';
@@ -26,8 +27,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: mobileBackgroundColor,
       ),
-      home: LoginScreen(),
-
+      //home: LoginScreen(),
+      home: SignupScreen(),
           /*
       Scaffold(
           body:
