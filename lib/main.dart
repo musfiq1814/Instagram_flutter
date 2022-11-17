@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
 
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(), // whenevver user signs inor signs out
+
           builder: (context,snapshot){
 
 
