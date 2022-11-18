@@ -1,3 +1,36 @@
+
+/*
+goto github
+got settings
+develper settings
+tokens
+personal access tokens
+generate new token (classic)
+
+copy that
+
+git init
+git add .
+git remote add origin https://github.com/musfiq1814/Instagram_flutter.git
+git push -u origin master
+username : musfiq1814
+pass: mrs1210900445
+
+git commit -m "messege"
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
