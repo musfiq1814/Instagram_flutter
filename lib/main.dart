@@ -1,4 +1,5 @@
 
+
 /*
 goto github
 got settings
@@ -6,26 +7,15 @@ develper settings
 tokens
 personal access tokens
 generate new token (classic)
-
 copy that
-
 git init
 git add .
 git remote add origin https://github.com/musfiq1814/Instagram_flutter.git
 git push -u origin master
 username : musfiq1814
 pass: mrs1210900445
-
 git commit -m "messege"
-
  */
-
-
-
-
-
-
-
 
 
 
@@ -40,7 +30,6 @@ import 'package:instagram_flutter/screens/login_screen.dart';
 import 'package:instagram_flutter/screens/signup_screen.dart';
 import 'package:instagram_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
-
 import 'responsive/responsive_layout_screen.dart';
 
 void main() async{
@@ -72,11 +61,16 @@ class MyApp extends StatelessWidget {
 
 
         home: StreamBuilder(
+
+
+
           stream: FirebaseAuth.instance.authStateChanges(), // whenevver user signs inor signs out
 
           builder: (context,snapshot){
 
 
+
+            /*
             if(snapshot.connectionState == ConnectionState.active){
 
               if(snapshot.hasData){
@@ -98,6 +92,7 @@ class MyApp extends StatelessWidget {
               );
             }
 
+             */
 
             return LoginScreen();
 

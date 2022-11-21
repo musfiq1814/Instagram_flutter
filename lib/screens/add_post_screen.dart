@@ -1,5 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:instagram_flutter/models/user.dart';
+import 'package:instagram_flutter/providers/user_provider.dart';
+import 'package:instagram_flutter/resources/firestore_methods.dart';
 import 'package:instagram_flutter/utils/colors.dart';
+import 'package:instagram_flutter/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -11,27 +19,143 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
-  @override
-  Widget build(BuildContext context) {
-    /*
-    return Center(
-      child: IconButton(
-        icon: Icon(Icons.upload), onPressed: () {  },
-      ),
+
+  Uint8List? _file;
+
+  final TextEditingController _desciptionController = TextEditingController();
+
+
+  postImage(String uid, String username, String profImage) async {
+
+
+    try{
+      String res = await FirestoreMehtods().uploadPost(_desciptionController.text, _file!, uid, username, profImage);
+      if(res == "success")
+        {
+          showSnackBar("Posted Successfully!", context);
+        }
+      else
+        {
+          showSnackBar(res, context);
+        }
+      
+      
+    }catch(e){
+      showSnackBar(e.toString(), context);
+    }
+
+
+  }
+
+
+  _selectImage(BuildContext context) async{
+
+
+    return showDialog(context: context, builder: (context) {
+
+      return SimpleDialog(
+        title: Text('Create a post'),
+        children: [
+          SimpleDialogOption(
+            padding: EdgeInsets.all(20),
+            child: Text('Take a photo'),
+            onPressed: () async{
+
+
+              Navigator.of(context).pop();
+              Uint8List file = await pickImage(ImageSource.camera);
+
+              setState(() {
+                _file = file;
+
+              });
+
+
+
+            },
+          ),
+          SimpleDialogOption(
+            padding: EdgeInsets.all(20),
+            child: Text('Choose from gallary'),
+            onPressed: () async{
+
+
+              Navigator.of(context).pop();
+              Uint8List file = await pickImage(ImageSource.gallery);
+
+              setState(() {
+                _file = file;
+
+              });
+
+
+
+            },
+          ),
+
+          SimpleDialogOption(
+            padding: EdgeInsets.all(20),
+            child: Text('Cancel'),
+            onPressed: () {
+
+
+              Navigator.of(context).pop();
+
+            },
+          )
+        ],
+      );
+
+    }
     );
 
-     */
+  }
 
-    return Scaffold(
+
+  @override
+  void dispose() {
+
+    super.dispose();
+    _desciptionController.dispose();
+
+  }
+
+
+
+
+
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    final User user = Provider.of<UserProvider>(context).getUser;
+
+    return _file == null? Center(
+      child: IconButton(
+        color: Colors.white,
+        icon: Icon(Icons.upload), onPressed: () => _selectImage(context),
+      ),
+    )
+        :
+
+    Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: (){},
+          onPressed: (){
+
+          },
         ),
         title: Text('Post To '),
         actions: [
-          TextButton(onPressed: (){}, child: Text(
+          TextButton(
+
+              onPressed: () => postImage(user.uid,user.username,user.photoUrl),
+
+
+              child: Text(
             'Post', style: TextStyle(
             color: Colors.blueAccent,
             fontWeight: FontWeight.bold,
@@ -50,14 +174,15 @@ class _AddPostState extends State<AddPost> {
             children: [
 
               CircleAvatar(
-                backgroundImage: NetworkImage('https://images.unsplash.com/photo-1668638674403-5b750a0dba0b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60'),
+                backgroundImage: NetworkImage(user.photoUrl),
               ),
 
               
               SizedBox(
 
-                width: MediaQuery.of(context).size.width*0.4,
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: TextField(
+                  controller: _desciptionController,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Write a caption.. ',
@@ -79,7 +204,7 @@ class _AddPostState extends State<AddPost> {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage('https://images.unsplash.com/photo-1668638674403-5b750a0dba0b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzMHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60'),
+                        image: MemoryImage(_file!),
                         fit: BoxFit.fill,
                         alignment: FractionalOffset.topCenter,
                       )
@@ -87,7 +212,13 @@ class _AddPostState extends State<AddPost> {
                   ),
                 ),
               ),
+
+
               Divider(),
+
+
+
+
 
 
 
@@ -107,5 +238,7 @@ class _AddPostState extends State<AddPost> {
 
 
     );
+
+
   }
 }
