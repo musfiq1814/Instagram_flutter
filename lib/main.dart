@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
 
 
 
-            /*
+
             if(snapshot.connectionState == ConnectionState.active){
 
               if(snapshot.hasData){
@@ -97,7 +97,6 @@ class MyApp extends StatelessWidget {
               );
             }
 
-             */
 
             return LoginScreen();
 
