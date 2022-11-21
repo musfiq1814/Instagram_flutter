@@ -1,6 +1,8 @@
 
 
 /*
+
+this is my fully build instagram application
 goto github
 got settings
 develper settings
