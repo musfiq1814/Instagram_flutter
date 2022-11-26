@@ -10,6 +10,11 @@ tokens
 personal access tokens
 generate new token (classic)
 copy that
+
+last token i got : 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
+try using this token otherwise regenerate
+
+
 git init
 git add .
 git remote add origin https://github.com/musfiq1814/Instagram_flutter.git
