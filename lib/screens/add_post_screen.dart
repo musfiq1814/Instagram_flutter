@@ -24,18 +24,30 @@ class _AddPostState extends State<AddPost> {
 
   final TextEditingController _desciptionController = TextEditingController();
 
+  bool _isLoading = false;
+
 
   postImage(String uid, String username, String profImage) async {
 
+    setState(() {
+      _isLoading = true;
+    });
 
     try{
       String res = await FirestoreMehtods().uploadPost(_desciptionController.text, _file!, uid, username, profImage);
       if(res == "success")
         {
+          setState(() {
+            _isLoading = false;
+          });
           showSnackBar("Posted Successfully!", context);
+          clearImage();
         }
       else
         {
+          setState(() {
+            _isLoading = false;
+          });
           showSnackBar(res, context);
         }
       
@@ -121,6 +133,12 @@ class _AddPostState extends State<AddPost> {
   }
 
 
+  void clearImage(){
+    setState(() {
+      _file = null;
+    });
+  }
+
 
 
 
@@ -144,9 +162,7 @@ class _AddPostState extends State<AddPost> {
         backgroundColor: mobileBackgroundColor,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: (){
-
-          },
+          onPressed: clearImage,
         ),
         title: Text('Post To '),
         actions: [
@@ -168,6 +184,12 @@ class _AddPostState extends State<AddPost> {
 
       body: Column(
         children: [
+
+
+          _isLoading ?
+          LinearProgressIndicator() :
+          Padding(padding: EdgeInsets.only(top: 0),),
+          Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
